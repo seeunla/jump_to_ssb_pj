@@ -2,6 +2,7 @@ package com.ll.exam.sbb;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -154,20 +155,58 @@ public class MainController {
                 .stream()
                 .filter(a -> a.getId() ==id )
                 .findFirst()
-                .get();
+                .orElse(null);
 
         return article;
     }
 
+    @GetMapping("/modifyArticle")
+    @ResponseBody
+    public String modifyArticle(int id, String title, String body){
+        Article article = articles
+                .stream()
+                .filter(article1 -> article1.getId() ==id)
+                .findFirst()
+                .orElse(null);
+
+        if ( article == null) {
+            return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+        }
+
+        article.setTitle(title);
+        article.setBody(body);
+
+        return "%d번 게시물이 수정되었습니다.".formatted(id);
+    }
+
+    @GetMapping("/deleteArticle")
+    @ResponseBody
+    public String deleteArticle(@PathVariable int id){
+        Article article = articles
+                .stream()
+                .filter(article1 -> article1.getId() ==id)
+                .findFirst()
+                .orElse(null);
+
+        if ( article == null) {
+            return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+        }
+
+        articles.remove(article);
+
+
+        return "%d번 게시물이 삭제되었습니다.".formatted(id);
+    }
 }
 
 @Getter
+@Setter
 @AllArgsConstructor
 class Article {
     private static int lastId = 0;
-    private final int id;
-    private final String title;
-    private final String body;
+    private int id;
+    private String title;
+    private String body;
 
     public Article(String title, String body) {
         this(++lastId,title,body);
