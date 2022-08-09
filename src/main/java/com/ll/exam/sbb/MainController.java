@@ -1,13 +1,15 @@
 package com.ll.exam.sbb;
 
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -100,4 +102,35 @@ public class MainController {
                 .mapToObj(i -> "%d * %d = %d".formatted(finalDan, i , finalDan * i))
                 .collect(Collectors.joining("<br>\n"));
     }
+
+    @GetMapping("/mbti/{name}")
+    @ResponseBody
+    public String mbti2(@PathVariable String name) {
+        return switch (name) {
+            case "홍길동" -> "infp";
+            case "홍길순" -> "infj";
+            case "김세은" -> "intj";
+            default -> "모름";
+        };
+    }
+
+    @GetMapping("/saveSession/{name}/{value}")
+    @ResponseBody
+    public String saveSession(@PathVariable String name, @PathVariable String value, HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        // req -> 쿠키가 있다. -> JSESSIONID => 세션을 얻을 수 있다.
+
+        session.setAttribute(name, value);
+        return "세션변수 %s의 값이 %s(으)로 설정되었습니다.".formatted(name,value);
+    }
+
+    @GetMapping("/getSession/{name}")
+    @ResponseBody
+    public String save2(@PathVariable String name, HttpSession session) {
+        String value = (String) session.getAttribute(name);
+
+        return "세션변수 %s의 값이 %s 입니다.".formatted(name, value);
+    }
+
+
 }
