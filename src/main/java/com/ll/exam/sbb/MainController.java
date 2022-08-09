@@ -207,7 +207,7 @@ public class MainController {
         return p;
     }
 
-    @GetMapping("/addPerson/{id}")
+    @GetMapping("/addPerson/{id}") // {id}를 추가하면 /addPerson/3?age=10&name=홍길동 가능
     @ResponseBody
     Person addPerson(Person p) {
         return p;
