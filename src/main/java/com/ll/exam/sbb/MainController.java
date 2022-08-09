@@ -1,6 +1,7 @@
 package com.ll.exam.sbb;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Controller;
@@ -197,6 +198,20 @@ public class MainController {
 
         return "%d번 게시물이 삭제되었습니다.".formatted(id);
     }
+
+    @GetMapping("addPersonOldWay")
+    @ResponseBody
+    Person addPersonOldWay(int id, int age, String name) {
+        Person p = new Person(id, age, name);
+
+        return p;
+    }
+
+    @GetMapping("/addPerson/{id}")
+    @ResponseBody
+    Person addPerson(Person p) {
+        return p;
+    }
 }
 
 @Getter
@@ -211,4 +226,12 @@ class Article {
     public Article(String title, String body) {
         this(++lastId,title,body);
     }
+}
+
+@Data
+@AllArgsConstructor
+class Person {
+    private int id;
+    private int age;
+    private String name;
 }
