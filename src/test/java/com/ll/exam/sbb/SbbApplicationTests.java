@@ -26,20 +26,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SbbApplicationTests {
 	@Autowired
 	private QuestionRepository questionRepository;
+	private int lastSampleDataId;
 
 	@Test
 	void contextLoads() {
 	}
 
-	@Test
-	void testJpa0() {
-		questionRepository.disableForeignKeyChecks();
-		questionRepository.truncate();
-		questionRepository.enableForeignKeyChecks();
+	@BeforeEach
+	void beforeEach() {
+		clearData();
+		createSampleData();
 	}
 
-	@Test
-	void testJpa() {
+	private void createSampleData() {
 		Question q1 = new Question();
 		q1.setSubject("sbb가 무엇인가요?");
 		q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -52,60 +51,114 @@ class SbbApplicationTests {
 		q2.setCreateDate(LocalDateTime.now());
 		questionRepository.save(q2);
 
-		assertThat(q1.getId()).isGreaterThan(0);
-		assertThat(q2.getId()).isGreaterThan(q1.getId());
+		lastSampleDataId = q2.getId();
+	}
+
+	private void clearData() {
+		questionRepository.disableForeignKeyChecks();
+		questionRepository.beforeAll();
+		questionRepository.enableForeignKeyChecks();
 	}
 
 	@Test
-	void testJpa2() {
-		// SELECT * FROM question
-		List<Question> all = questionRepository.findAll();
-		assertEquals(2, all.size());
+	private void 저장() {
+		Question q1 = new Question();
+		q1.setSubject("sbb가 무엇인가요?");
+		q1.setContent("sbb에 대해서 알고 싶습니다.");
+		q1.setCreateDate(LocalDateTime.now());
+		questionRepository.save(q1);
 
-		Question q = all.get(0);
-		assertEquals("sbb가 무엇인가요?", q.getSubject());
+		Question q2 = new Question();
+		q2.setSubject("스프링부트 모델 질문입니다.");
+		q2.setContent("id는 자동으로 생성되나요?");
+		q2.setCreateDate(LocalDateTime.now());
+		questionRepository.save(q2);
+
+		assertThat(q1.getId()).isEqualTo(lastSampleDataId +1);
+		assertThat(q2.getId()).isEqualTo(lastSampleDataId +2);
 	}
 
 	@Test
-	void testJpa3() {
-		// SELECT * FROM question
-		Question q = questionRepository.findBySubject("sbb가 무엇인가요?");
-		assertEquals(1, q.getId());
+	private void 삭제() {
+		assertThat(questionRepository.count()).isEqualTo(lastSampleDataId);
+
+		Question q = this.questionRepository.findById(1).get();
+		questionRepository.delete(q);
+
+		assertThat(questionRepository.count()).isEqualTo(lastSampleDataId - 1);
 	}
 
-	@Test
-	void testJpa4() {
-		Question q = this.questionRepository.findBySubjectAndContent(
-				"sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.");
-		assertEquals(1, q.getId());
-	}
-
-	@Test
-	void testJpa5() {
-		List<Question> qList = this.questionRepository.findBySubjectLike("sbb%");
-		Question q = qList.get(0);
-		assertEquals("sbb가 무엇인가요?", q.getSubject());
-	}
-
-	@Test
-	void testJpa6() {
-		Optional<Question> oq = this.questionRepository.findById(1);
-		assertTrue(oq.isPresent());
-		Question q = oq.get();
-		q.setSubject("수정된 제목");
-		this.questionRepository.save(q); // UPDATE
-	}
-
-	@Test
-	void testJpa7() {
-		assertEquals(2, this.questionRepository.count());
-		Optional<Question> oq = this.questionRepository.findById(1);
-		assertTrue(oq.isPresent());
-		Question q = oq.get();
-
-		this.questionRepository.delete(q);
-
-		assertEquals(1, this.questionRepository.count());
-	}
-
+//	@Test
+//	void testJpa1() {
+//		Question q1 = new Question();
+//		q1.setSubject("sbb가 무엇인가요?");
+//		q1.setContent("sbb에 대해서 알고 싶습니다.");
+//		q1.setCreateDate(LocalDateTime.now());
+//		questionRepository.save(q1);
+//
+//		Question q2 = new Question();
+//		q2.setSubject("스프링부트 모델 질문입니다.");
+//		q2.setContent("id는 자동으로 생성되나요?");
+//		q2.setCreateDate(LocalDateTime.now());
+//		questionRepository.save(q2);
+//
+//		assertThat(q1.getId()).isGreaterThan(0);
+//		assertThat(q2.getId()).isGreaterThan(q1.getId());
+//
+//	}
+//
+//	@Test
+//	void select1() {
+//		// SELECT * FROM question
+//		List<Question> all = questionRepository.findAll();
+//		assertEquals(2, all.size());
+//		Question q = all.get(0);
+//		assertEquals("sbb가 무엇인가요?", q.getSubject());
+//
+//	}
+//
+//	@Test
+//	void select2() {
+//		// SELECT * FROM question
+//		Question q = questionRepository.findBySubject("sbb가 무엇인가요?");
+//		assertEquals(1, q.getId());
+//
+//	}
+//
+//	@Test
+//	void select3() {
+//		Question q = questionRepository.findBySubjectAndContent(
+//				"sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.");
+//		assertEquals(1, q.getId());
+//
+//	}
+//
+//	@Test
+//	void select4() {
+//		List<Question> qList = questionRepository.findBySubjectLike("sbb%");
+//		Question q = qList.get(0);
+//		assertEquals("sbb가 무엇인가요?", q.getSubject());
+//
+//	}
+//
+//	@Test
+//	void modify() {
+//		Optional<Question> oq = questionRepository.findById(1);
+//		assertTrue(oq.isPresent());
+//		Question q = oq.get();
+//		q.setSubject("수정된 제목");
+//		questionRepository.save(q); // UPDATE
+//
+//	}
+//
+//	@Test
+//	void delete() {
+//		assertEquals(2, questionRepository.count());
+//		Optional<Question> oq = this.questionRepository.findById(1);
+//		assertTrue(oq.isPresent());
+//		Question q = oq.get();
+//		questionRepository.delete(q);
+//		assertEquals(1, questionRepository.count());
+//
+//	}
 }

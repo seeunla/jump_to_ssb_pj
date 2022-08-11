@@ -28,6 +28,5 @@ public class Answer {
     private LocalDateTime createDate;
 
     @ManyToOne // 많은 Answer가 하나의 question 달릴 수 있다는 의미
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Question question;
 }
