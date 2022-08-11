@@ -2,6 +2,7 @@ package com.ll.exam.sbb.question;
 
 import com.ll.exam.sbb.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 public class QuestionController {
+    @Autowired
     private final QuestionService questionService;
 
     @RequestMapping("/list")
