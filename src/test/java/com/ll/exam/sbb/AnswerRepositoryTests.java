@@ -46,7 +46,7 @@ private QuestionRepository questionRepository;
         //a1.setQuestion(q);
         a1.setCreateDate(LocalDateTime.now());
         q.addAnswer(a1);
-        answerRepository.save(a1);
+        //answerRepository.save(a1);
 
         //q.getAnswerList().add(a1);
 
@@ -55,7 +55,7 @@ private QuestionRepository questionRepository;
         //a2.setQuestion(q);
         a2.setCreateDate(LocalDateTime.now());
         q.addAnswer(a2);
-        answerRepository.save(a2);
+        //answerRepository.save(a2);
 
         //q.getAnswerList().add(a2);
 
@@ -68,11 +68,19 @@ private QuestionRepository questionRepository;
     void 저장() {
         Question q = questionRepository.findById(2).get();
 
-        Answer a = new Answer();
-        a.setContent("네 자동으로 생성됩니다.");
-        a.setCreateDate(LocalDateTime.now());
-        q.addAnswer(a);
-        answerRepository.save(a);
+        Answer a1 = new Answer();
+        a1.setContent("네 자동으로 생성됩니다.");
+        a1.setCreateDate(LocalDateTime.now());
+        q.addAnswer(a1);
+        //answerRepository.save(a);
+
+        Answer a2 = new Answer();
+        a2.setContent("네 자동으로 생성됩니다.");
+        a2.setCreateDate(LocalDateTime.now());
+        q.addAnswer(a2);
+        //answerRepository.save(a);
+
+        questionRepository.save(q);
     }
 
     @Test
