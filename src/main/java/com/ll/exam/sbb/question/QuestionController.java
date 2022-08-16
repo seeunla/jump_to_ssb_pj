@@ -26,10 +26,6 @@ public class QuestionController {
         return "question_list";
     }
 
-    @RequestMapping("/")
-    public String root() {
-        return "redirect:/question/list";
-    }
 
     @RequestMapping(value = "/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
