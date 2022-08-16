@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ko" xmlns:layout="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <!--BootStrap CSS    -->
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}" type="text/css">
+    <!-- sbb CSS   -->
+    <link rel="stylesheet" th:href="@{/style.css}" type="text/css">
+    <title>Hello, This is Seeeunite</title>
+</head>
+<body>
+<!--기본 템플릿 안에 삽입될 내용 start-->
+<th:block layout:fragment="content"></th:block>
+</body>
+</html>
