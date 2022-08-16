@@ -6,12 +6,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainController {
-    private int i =-1;
     @RequestMapping("/sbb")
     @ResponseBody
     public String index() {
         System.out.println("Hello");
         return "ㅎㅇ";
+    }
+
+    @RequestMapping("/")
+    public String root() {
+        return "redirect:/question/list";
     }
 
 }

@@ -1,8 +1,7 @@
-package com.ll.exam.sbb;
+package com.ll.exam.sbb.question;
 
 
-import com.ll.exam.sbb.question.Question;
-import com.ll.exam.sbb.question.QuestionRepository;
+import com.ll.exam.sbb.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
