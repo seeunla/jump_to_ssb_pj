@@ -45,14 +45,8 @@ public class QuestionController {
     }
 
     @PostMapping("/create")
-    public String questionCreate(Model model, QuestionForm questionForm) {
-        if (questionForm.getSubject() ==null || questionForm.getSubject().trim().length() ==0) {
-            model.addAttribute("errorMsg","제목을 입력해주세요.");
-            return "question_form";
-        }
-
-        if (questionForm.getContent() ==null || questionForm.getContent().trim().length() ==0) {
-            model.addAttribute("errorMsg","내용을 입력해주세요.");
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "question_form";
         }
         this.questionService.create(questionForm.getSubject(), questionForm.getContent());
