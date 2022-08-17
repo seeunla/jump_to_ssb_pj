@@ -1,9 +1,11 @@
 <html layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://thymeleaf.org">
 
 <div layout:fragment="content" class="container my-3">
+
     <!--질문-->
     <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
+
     <div class="card my-3">
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" ${question.content}></div>
@@ -14,9 +16,11 @@
             </div>
         </div>
     </div>
+
     <!--select * from answer where question_id =?-->
     <h5 class="border-bottom my-3 py-2" th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
     <!--답변 반복 시작-->
+
     <div class="card my-3" th:each="answer : ${question.answerList}">
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>
@@ -28,11 +32,16 @@
         </div>
     </div>
     <!-- 답변 반복 끝         -->
+
     <!--답변 작성-->
-    <form th:action="@{|/answer/create/${question.id}|}" method="post" class="my-3">
-        <textarea name="content" id="content" rows="15" class="form-control"></textarea>
+    <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err: ${#fields.allErrors()}" th:text="${err}"></div>
+        </div>
+        <textarea th:field="*{content}" id="content" rows="15" class="form-control"></textarea>
         <button type="submit" class="btn btn-primary my-2">답변등록</button>
     </form>
+
 </div>
 
 </html>
