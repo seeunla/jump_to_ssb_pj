@@ -11,7 +11,26 @@
     <title>Hello, This is Seeeunite</title>
 </head>
 <body>
+<header class="container py-3 d-flex">
+    <div class="container py-3 d-flex">
+        <a href="@{/}" class="mr-auto">메인 페이지 </a>
+
+        <div class="flex-grow-1"></div>
+        <div>
+            <a th:href="@{/question/list}">질문 리스트</a>
+       </div>
+    </div>
+</header>
+
 <!--기본 템플릿 안에 삽입될 내용 start-->
 <th:block layout:fragment="content"></th:block>
+
+<footer>
+    <div class="container py-3 d-flex justify-content-center">
+        Copyright all rights reserved
+    </div>
+</footer>
 </body>
+
+
 </html>
