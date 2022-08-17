@@ -10,7 +10,7 @@
     <link rel="stylesheet" th:href="@{/style.css}" type="text/css">
     <title>Hello, This is Seeeunite</title>
 </head>
-<body>
+<body style="min-height: 100vh;" class="d-flex flex-column">
 <header class="container py-3 d-flex">
     <div class="container py-3 d-flex">
         <a href="@{/}" class="mr-auto">메인 페이지 </a>
@@ -23,9 +23,12 @@
 </header>
 
 <!--기본 템플릿 안에 삽입될 내용 start-->
-<th:block layout:fragment="content"></th:block>
+<main class="flex-grow-1">
+    <th:block layout:fragment="content"></th:block>
+</main>
 
-<footer>
+
+<footer class="bg-dark text-light">
     <div class="container py-3 d-flex justify-content-center">
         Copyright all rights reserved
     </div>
