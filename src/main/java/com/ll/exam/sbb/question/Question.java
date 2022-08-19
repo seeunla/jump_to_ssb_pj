@@ -1,6 +1,7 @@
 package com.ll.exam.sbb.question;
 
 import com.ll.exam.sbb.answer.Answer;
+import com.ll.exam.sbb.user.SiteUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,6 +33,9 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = {CascadeType.ALL})
     private List<Answer> answerList = new ArrayList<>();
+
+    @ManyToOne
+    private SiteUser author;
 
     public void addAnswer(Answer answer) {
         answer.setQuestion(this);

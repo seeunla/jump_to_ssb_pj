@@ -1,5 +1,6 @@
 package com.ll.exam.sbb.answer;
 import com.ll.exam.sbb.question.Question;
+import com.ll.exam.sbb.user.SiteUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,4 +30,7 @@ public class Answer {
 
     @ManyToOne // 많은 Answer가 하나의 question 달릴 수 있다는 의미
     private Question question;
+
+    @ManyToOne
+    private SiteUser author;
 }
