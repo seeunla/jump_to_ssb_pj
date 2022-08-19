@@ -1,5 +1,7 @@
 package com.ll.exam.sbb.user;
 
+import com.ll.exam.sbb.answer.Answer;
+import com.ll.exam.sbb.question.Question;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,4 +23,6 @@ public class SiteUser {
 
     @Column(unique = true)
     private String email;
+
+
 }
