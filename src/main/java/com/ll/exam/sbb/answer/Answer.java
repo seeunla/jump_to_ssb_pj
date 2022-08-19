@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class Answer {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
-    private Integer id;
+    private long id;
 
     @Column(columnDefinition = "TEXT")
     private String content;

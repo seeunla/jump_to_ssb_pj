@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .permitAll()
                 .and() // 문맥의 끝
                 .csrf().ignoringAntMatchers("/h2-console/**")
-                .and()
+                .and()// 문맥의 끝
                 .headers().addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN
                 ));

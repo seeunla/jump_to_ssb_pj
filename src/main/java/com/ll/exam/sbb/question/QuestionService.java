@@ -29,7 +29,7 @@ public class QuestionService {
         return this.questionRepository.findAll(pageable);
     }
 
-    public Question getQuestion(Integer id) {
+    public Question getQuestion(long id) {
         return questionRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("no %d , question not found".formatted(id)));
     }
