@@ -25,8 +25,10 @@ public class Question {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
     private Long id;
+
     @Column(length = 200) // varchar(200)
     private String subject;
+
     @Column(columnDefinition = "TEXT")
     private String content;
     private LocalDateTime createDate;

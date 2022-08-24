@@ -15,6 +15,6 @@ public interface UserRepository extends JpaRepository<SiteUser, Long>, Repositor
 
     @Transactional
     @Modifying
-    @Query(value = "ALTER TABLE site_user AUTO_INCREMENT= 1", nativeQuery = true)
+    @Query(value = "ALTER TABLE site_user AUTO_INCREMENT = 1", nativeQuery = true)
     void truncate();
 }

@@ -3,6 +3,7 @@ package com.ll.exam.sbb.user;
 import com.ll.exam.sbb.answer.Answer;
 import com.ll.exam.sbb.question.Question;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class SiteUser {
 
     @Id
@@ -23,6 +25,10 @@ public class SiteUser {
 
     @Column(unique = true)
     private String email;
+
+    public SiteUser(long id) {
+        this.id = id;
+    }
 
 
 }

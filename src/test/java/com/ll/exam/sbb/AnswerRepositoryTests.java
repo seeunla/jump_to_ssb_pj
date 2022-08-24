@@ -6,6 +6,7 @@ import com.ll.exam.sbb.question.*;
 import com.ll.exam.sbb.question.QuestionRepository;
 import com.ll.exam.sbb.user.SiteUser;
 import com.ll.exam.sbb.user.UserRepository;
+import com.ll.exam.sbb.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class AnswerRepositoryTests {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
 
     @BeforeEach
     void beforeEach() {
@@ -35,24 +39,23 @@ public class AnswerRepositoryTests {
     }
 
 
-    public static void clearData(AnswerRepository answerRepository, QuestionRepository questionRepository) {
-        QuestionRepositoryTests.clearData(questionRepository);
+    public static void clearData(UserRepository userRepository, AnswerRepository answerRepository, QuestionRepository questionRepository) {
+        UserServiceTests.clearData(userRepository, answerRepository, questionRepository);
 
-        answerRepository.deleteAll();
-        answerRepository.truncateTable();
     }
 
     private void clearData() {
-        clearData(answerRepository, questionRepository);
+        clearData(userRepository,answerRepository, questionRepository);
     }
 
     private void createSampleData() {
-        QuestionRepositoryTests.createSampleData(questionRepository);
+        QuestionRepositoryTests.createSampleData(userService, questionRepository);
 
         Question q = questionRepository.findById(1L).get();
 
         Answer a1 = new Answer();
         a1.setContent("sbb는 질문답변 게시판 입니다.");
+        a1.setAuthor(new SiteUser(1L));
         //a1.setQuestion(q);
         a1.setCreateDate(LocalDateTime.now());
         q.addAnswer(a1);
@@ -62,6 +65,7 @@ public class AnswerRepositoryTests {
 
         Answer a2 = new Answer();
         a2.setContent("sbb에서는 주로 스프링부트관련 내용을 다룹니다.");
+        a2.setAuthor(new SiteUser(2L));
         //a2.setQuestion(q);
         a2.setCreateDate(LocalDateTime.now());
         q.addAnswer(a2);
@@ -80,12 +84,14 @@ public class AnswerRepositoryTests {
 
         Answer a1 = new Answer();
         a1.setContent("네 자동으로 생성됩니다.");
+        a1.setAuthor(new SiteUser(2L));
         a1.setCreateDate(LocalDateTime.now());
         q.addAnswer(a1);
         //answerRepository.save(a);
 
         Answer a2 = new Answer();
-        a2.setContent("네 자동으로 생성됩니다.");
+        a2.setContent("yeseys");
+        a2.setAuthor(new SiteUser(2L));
         a2.setCreateDate(LocalDateTime.now());
         q.addAnswer(a2);
         //answerRepository.save(a);

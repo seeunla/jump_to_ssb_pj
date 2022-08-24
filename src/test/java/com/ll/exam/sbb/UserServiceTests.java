@@ -28,16 +28,6 @@ public class UserServiceTests {
         createSampleData();
     }
 
-    private void clearData() {
-        clearData(userRepository, answerRepository, questionRepository);
-    }
-
-    private static void clearData(UserRepository userRepository, AnswerRepository answerRepository, QuestionRepository questionRepository) {
-        AnswerRepositoryTests.clearData(answerRepository, questionRepository);
-        QuestionRepositoryTests.clearData(questionRepository);
-        userRepository.deleteAll();
-        userRepository.truncate();
-    }
 
     public static void createSampleData(UserService userService) {
         userService.create("admin","admin@test.com","1234");
@@ -48,6 +38,20 @@ public class UserServiceTests {
         createSampleData(userService);
     }
 
+    public static void clearData(UserRepository userRepository, AnswerRepository answerRepository, QuestionRepository questionRepository) {
+        answerRepository.deleteAll();
+        answerRepository.truncateTable();
+
+        questionRepository.deleteAll();
+        questionRepository.truncateTable();
+
+        userRepository.deleteAll();
+        userRepository.truncateTable();
+    }
+
+    private void clearData() {
+        clearData(userRepository, answerRepository, questionRepository);
+    }
 
     @Test
     @DisplayName("회원가입이 가능하다.")
