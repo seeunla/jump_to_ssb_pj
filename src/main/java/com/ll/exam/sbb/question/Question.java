@@ -44,4 +44,6 @@ public class Question {
         getAnswerList().add(answer);
     }
 
+    private LocalDateTime modifyDate;
+
 }
