@@ -64,4 +64,11 @@ public class QuestionController {
         questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String questionModify(Principal principal, QuestionForm questionForm, @PathVariable("id") Integer id) {
+        Question question = questionService.getQuestion(id);
+        if
+    }
 }
