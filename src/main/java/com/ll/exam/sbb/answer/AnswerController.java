@@ -1,10 +1,12 @@
 package com.ll.exam.sbb.answer;
 
+import com.ll.exam.sbb.question.QuestionForm;
 import com.ll.exam.sbb.question.QuestionService;
 import com.ll.exam.sbb.question.Question;
 import com.ll.exam.sbb.user.SiteUser;
 import com.ll.exam.sbb.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -39,6 +42,25 @@ public class AnswerController {
         SiteUser siteUser = userService.getUser(principal.getName());
 
         this.answerService.create(question, answerForm.getContent(), siteUser);
-        return  String.format("redirect:/question/detail/%s", id);
+        return  "redirect:/question/detail/%d".formatted(id);
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String questionModify(Principal principal, @Valid QuestionForm questionForm, BindingResult bindingResult,
+    @PathVariable("id") Long id) {
+        if ( bindingResult.hasErrors()) {
+            return "question_form";
+        }
+
+        Question question =questionService.getQuestion(id);
+        if(!question.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+
+        questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+
+        return "redirect:/question/detail/%d".formatted(id);
+    }
+
 }
